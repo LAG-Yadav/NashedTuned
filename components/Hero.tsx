@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         {/* Local image reference for Hero background */}
         <img
-          src="/images/hero-bg.jpg"
+          src="/public/images/hero-bg.jpg"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             // Fallback only if local image is missing
