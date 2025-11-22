@@ -1,13 +1,49 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import RevealOnScroll from './RevealOnScroll';
-import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, Send } from 'lucide-react';
 
 interface ContactProps {
   isStandalone?: boolean;
 }
 
 const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
+  // State to hold form data
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    service: 'General Service',
+    message: ''
+  });
+
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  // Handle WhatsApp Submission
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // 1. Construct the message
+    const text = `*New Booking Request from Nashed Tuned Website* %0A%0A` +
+                 `*Name:* ${formData.name} %0A` +
+                 `*Phone:* ${formData.phone} %0A` +
+                 `*Service Type:* ${formData.service} %0A` +
+                 `*Message:* ${formData.message}`;
+
+    // 2. Phone Number (International Format without +)
+    const phoneNumber = "27834379366"; 
+
+    // 3. Create the API URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+
+    // 4. Open in new tab
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <section className={`${isStandalone ? 'pt-32' : 'pt-20'} pb-24 bg-[#0f172a] relative overflow-hidden min-h-screen flex items-center border-t border-slate-800`}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#586e45]/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -18,7 +54,7 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
             <span className="text-red-500 font-bold tracking-widest uppercase text-sm">Get In Touch</span>
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-4 mt-2 uppercase italic">Book Your Service</h1>
             <p className="text-slate-400">
-              Ready to give your vehicle the care it deserves? Use the form below or give us a call.
+              Ready to give your vehicle the care it deserves? Send us a request directly via WhatsApp.
             </p>
           </div>
         </RevealOnScroll>
@@ -62,7 +98,7 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
                             </div>
                             <div>
                                 <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">WhatsApp</p>
-                                <a href="https://wa.me/27834379366" className="text-white hover:text-green-400 transition-colors mt-1 block">
+                                <a href="https://wa.me/27834379366" target="_blank" rel="noreferrer" className="text-white hover:text-green-400 transition-colors mt-1 block">
                                     Chat with us directly
                                 </a>
                             </div>
@@ -79,7 +115,7 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
 
           {/* Booking Form */}
           <RevealOnScroll delay={200} className="lg:col-span-2">
-            <form className="glass-panel p-8 sm:p-12 rounded-sm border-t-4 border-t-[#586e45] shadow-2xl relative h-full">
+            <form onSubmit={handleWhatsAppSubmit} className="glass-panel p-8 sm:p-12 rounded-sm border-t-4 border-t-[#586e45] shadow-2xl relative h-full">
                 {/* Decorative corner */}
                 <div className="absolute top-0 right-0 w-0 h-0 border-t-[60px] border-t-white/5 border-l-[60px] border-l-transparent"></div>
 
@@ -89,6 +125,9 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
                     <input
                     type="text"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
                     className="w-full bg-slate-900/80 border border-slate-700 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
                     placeholder="John Doe"
                     />
@@ -98,6 +137,9 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
                     <input
                     type="tel"
                     id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
                     className="w-full bg-slate-900/80 border border-slate-700 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
                     placeholder="083 437 9366"
                     />
@@ -108,6 +150,8 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
                 <label htmlFor="service" className="text-xs font-bold text-[#586e45] uppercase tracking-wider">Service Type</label>
                 <select
                     id="service"
+                    value={formData.service}
+                    onChange={handleChange}
                     className="w-full bg-slate-900/80 border border-slate-700 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors appearance-none"
                 >
                     <option>General Service</option>
@@ -124,17 +168,24 @@ const Contact: React.FC<ContactProps> = ({ isStandalone = true }) => {
                 <textarea
                     id="message"
                     rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full bg-slate-900/80 border border-slate-700 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
                     placeholder="Make, Model, Year, and issues you are experiencing..."
                 ></textarea>
                 </div>
 
                 <button
-                type="button"
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 uppercase italic tracking-wide transition-all transform hover:translate-y-[-2px] shadow-lg shadow-red-900/30 skew-x-[-5deg]"
+                type="submit"
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-4 uppercase italic tracking-wide transition-all transform hover:translate-y-[-2px] shadow-lg shadow-green-900/30 skew-x-[-5deg] flex items-center justify-center gap-2"
                 >
-                <span className="block skew-x-[5deg]">Request Appointment</span>
+                <span className="flex items-center gap-2 skew-x-[5deg]">
+                    Request on WhatsApp <Send className="w-5 h-5" />
+                </span>
                 </button>
+                <p className="text-center text-slate-500 text-xs mt-4">
+                    This will open WhatsApp with your pre-filled booking details.
+                </p>
             </form>
           </RevealOnScroll>
         </div>
