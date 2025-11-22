@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ShieldCheck, ArrowRight } from 'lucide-react';
 import RevealOnScroll from './RevealOnScroll';
@@ -8,11 +9,16 @@ const Hero: React.FC = () => {
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Grey Honda Civic Type R style image */}
+        {/* User provided Grey Honda Civic Type R Side Profile */}
         <img
-          src="https://images.unsplash.com/photo-1605218457332-dd44386afad2?q=80&w=2800&auto=format&fit=crop"
+          src="/images/hero-bg.jpg"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=2800&auto=format&fit=crop'; // Fallback
+            target.alt = "Image not found - please save your image as public/images/hero-bg.jpg";
+          }}
           alt="Grey Honda Civic Type R"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center transform scale-105"
         />
         {/* Military Green / Tech overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/80 to-[#586e45]/20"></div>

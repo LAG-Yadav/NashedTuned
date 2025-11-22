@@ -1,3 +1,4 @@
+
 import React from 'react';
 import RevealOnScroll from './RevealOnScroll';
 
@@ -8,40 +9,46 @@ interface GalleryProps {
 const Gallery: React.FC<GalleryProps> = ({ isStandalone = true }) => {
   const images = [
     {
-        // Blue Engine Bay (Simulated match)
-        src: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1000&auto=format&fit=crop",
+        // Blue Engine Bay - User provided
+        src: "/images/gallery-blue-engine.jpg",
+        fallback: "https://images.unsplash.com/photo-1609207263918-004d1f45d0be?q=80&w=1000&auto=format&fit=crop",
         cat: "VTEC Turbo",
-        desc: "Precision Turbo Setup"
+        desc: "Precision Turbo Build"
     },
     {
-        // Pink/Red Valve Cover (Simulated match)
-        src: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?q=80&w=1000&auto=format&fit=crop",
+        // Pink Valve Cover - User provided
+        src: "/images/gallery-pink-engine.jpg",
+        fallback: "https://images.unsplash.com/photo-1597396693877-77772e1c8547?q=80&w=1000&auto=format&fit=crop",
         cat: "K20 Build",
-        desc: "Performance Head"
+        desc: "Custom Valve Cover"
     },
     {
-        // Grey Type R Rear (Simulated match)
-        src: "https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1000&auto=format&fit=crop",
+        // Grey Type R Rear - User provided
+        src: "/images/gallery-civic-rear.jpg",
+        fallback: "https://images.unsplash.com/photo-1502161254066-6c74afbf07aa?q=80&w=1000&auto=format&fit=crop",
         cat: "Type R",
-        desc: "Chassis Setup"
+        desc: "Aero Package"
     },
     {
-        // Red S2000 (Simulated match)
-        src: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1000&auto=format&fit=crop",
+        // Red S2000 - User provided
+        src: "/images/gallery-s2000.jpg",
+        fallback: "https://images.unsplash.com/photo-1610200903230-46372245219d?q=80&w=1000&auto=format&fit=crop",
         cat: "S2000",
-        desc: "Maintenance"
+        desc: "Classic Performance"
     },
     {
-        // Workshop Lineup
-        src: "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=1000&auto=format&fit=crop",
-        cat: "Workshop",
-        desc: "The Fleet"
+        // Grey Civic Front Side - User provided
+        src: "/images/gallery-civic-front.jpg",
+        fallback: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=1000&auto=format&fit=crop",
+        cat: "Civic FL5",
+        desc: "The New Standard"
     },
     {
-        // Grey Civic Front
-        src: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1000&auto=format&fit=crop",
-        cat: "Civic",
-        desc: "Detailing"
+        // Engine Bay Carbon - User provided
+        src: "/images/gallery-engine-carbon.jpg",
+        fallback: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1000&auto=format&fit=crop",
+        cat: "Engine Bay",
+        desc: "Carbon Intake Systems"
     },
   ];
 
@@ -79,7 +86,11 @@ const Gallery: React.FC<GalleryProps> = ({ isStandalone = true }) => {
                     </div>
                     <img
                     src={img.src}
-                    alt={`Gallery ${idx + 1}`}
+                    alt={`Gallery - ${img.desc}`}
+                    onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = img.fallback; // Fallback to stock if local not found
+                    }}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out opacity-90 group-hover:opacity-100"
                     />
                 </div>
