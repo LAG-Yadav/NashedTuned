@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600">
             <p>&copy; {new Date().getFullYear()} Nashed Tuned. RMI No: 1007817. All rights reserved.</p>
-            <p className="mt-2 md:mt-0">Proudly Powered by Connect-IT Life</p>
+            <p className="mt-2 md:mt-0">Proudly Powered by NexusScalers.co.za</p>
         </div>
       </div>
     </footer>
