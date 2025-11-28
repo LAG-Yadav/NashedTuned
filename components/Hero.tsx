@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
           <h1 className="text-5xl sm:text-7xl font-black text-white leading-tight mb-6 italic">
             PRECISION <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
-              PERFORMANCE
+              PERFORMANCE (HELLOOOO ARYA)
             </span>
           </h1>
           
